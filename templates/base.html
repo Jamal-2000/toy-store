@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>3D-ALCHEMIST</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body>
+
+<div class="navbar">
+    <h2>3D-ALCHEMIST</h2>
+
+    <div class="links">
+        <a href="/">Home</a>
+        <a href="/products">Products</a>
+
+        <!-- ✅ NEW CART LINK -->
+        <a href="/cart" class="cart-link">
+            🛒 Cart <span class="cart-count">{{ cart_count() }}</span>
+        </a>
+    </div>
+</div>
+
+<!-- Page Content -->
+{% block content %}{% endblock %}
+
+<div class="footer">
+    © 2025 3D-ALCHEMIST. All rights reserved.
+</div>
+
+</body>
+</html>

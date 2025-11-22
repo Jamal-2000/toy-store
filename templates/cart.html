@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <a href="/" class="logo">Toy Store</a>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/products">Products</a>
+            <a href="/cart" class="cart-btn">
+                🛒 Cart <span class="cart-count">{{ cart_count() }}</span>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<h2 class="section-title">Your Cart</h2>
+
+{% if items %}
+<div class="cart-container">
+
+    {% for item in items %}
+    <div class="cart-item">
+        <img src="{{ image_url(item.product.image) }}">
+
+        <div class="cart-info">
+            <h3>{{ item.product.title }}</h3>
+            <p>Qty: {{ item.qty }}</p>
+            <p class="price">₹ {{ "%.2f"|format(item.subtotal * 83) }}</p>
+
+            <a href="/remove/{{ item.product.id }}" class="remove">Remove</a>
+        </div>
+    </div>
+    {% endfor %}
+
+    <h3 class="cart-total">Total: ₹ {{ "%.2f"|format(total * 83) }}</h3>
+</div>
+
+{% else %}
+<p class="empty">Your cart is empty 😢</p>
+{% endif %}
+
+</body>
+</html>

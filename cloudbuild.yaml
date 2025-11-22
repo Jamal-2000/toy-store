@@ -23,3 +23,6 @@ steps:
 
 images:
   - 'gcr.io/$PROJECT_ID/toy-store'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

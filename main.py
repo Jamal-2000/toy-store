@@ -10,8 +10,8 @@ products = {
         "title": "Flower Vase (Blue)",
         "slug": "flower-vase-blue",
         "image": "FlowerVaseBlue.png",
-        "price": 29.99,
-        "currency": "USD",
+        "price": 350,
+        "currency": "₹",
         "short": "Elegant decorative vase for any room.",
         "description": """
 A beautiful blue flower vase made from ceramic. Perfect for dining tables, shelves,
@@ -23,8 +23,8 @@ or as a centerpiece. Height: 20cm. Hand-wash recommended.
         "title": "Honey Comb Puzzle",
         "slug": "honey-comb-puzzle",
         "image": "HoneyComb.png",
-        "price": 14.50,
-        "currency": "USD",
+        "price": 450,
+        "currency": "₹",
         "short": "Fun and creative puzzle toy.",
         "description": """
 Honey-comb shaped wooden puzzle — great for brain training and decorative display.
@@ -36,8 +36,8 @@ Made with smooth edges and safe paint.
         "title": "Hot Wheels Stand",
         "slug": "hot-wheels-stand",
         "image": "HotWheelsStand.png",
-        "price": 39.00,
-        "currency": "USD",
+        "price": 350,
+        "currency": "₹",
         "short": "Perfect for car collectors.",
         "description": """
 A stylish display stand for Hot Wheels and model cars. Durable acrylic with a sleek finish.

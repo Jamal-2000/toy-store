@@ -1,52 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <title>Your Cart</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
-<header>
-    <nav class="navbar">
-        <a href="/" class="logo">Toy Store</a>
-
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/products">Products</a>
-            <a href="/cart" class="cart-btn">
-                🛒 Cart <span class="cart-count">{{ cart_count() }}</span>
-            </a>
-        </div>
-    </nav>
-</header>
-
-<h2 class="section-title">Your Cart</h2>
-
-{% if items %}
-<div class="cart-container">
-
-    {% for item in items %}
-    <div class="cart-item">
-        <img src="{{ image_url(item.product.image) }}">
-
-        <div class="cart-info">
-            <h3>{{ item.product.title }}</h3>
-            <p>Qty: {{ item.qty }}</p>
-            <p class="price">₹ {{ "%.2f"|format(item.subtotal * 83) }}</p>
-
-            <a href="/remove/{{ item.product.id }}" class="remove">Remove</a>
-        </div>
+  <div class="navbar">
+    <h2>3D-ALCHEMIST</h2>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="/products">Products</a>
+      <a href="/cart">Cart</a>
     </div>
-    {% endfor %}
+  </div>
 
-    <h3 class="cart-total">Total: ₹ {{ "%.2f"|format(total * 83) }}</h3>
-</div>
+  <section class="products-section">
+    <h2>Your Cart</h2>
 
-{% else %}
-<p class="empty">Your cart is empty 😢</p>
-{% endif %}
+    {% if items %}
+    <form action="/update_cart" method="POST">
+      <table style="width:90%; margin:auto; background:white; padding:20px; border-radius:10px;">
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Subtotal</th>
+          <th>Action</th>
+        </tr>
 
+        {% for item in items %}
+        <tr>
+          <td>{{ item.product.title }}</td>
+
+          <td>
+            <input type="number" name="{{ item.product.id }}" 
+                   value="{{ item.qty }}" min="1" style="width:60px;">
+          </td>
+
+          <td>{{ item.product.currency }} {{ "%.2f"|format(item.product.price) }}</td>
+          <td>{{ item.product.currency }} {{ "%.2f"|format(item.subtotal) }}</td>
+
+          <td>
+            <a href="/remove_from_cart/{{ item.product.id }}" style="color:red;">Remove</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <div style="margin-top:20px; text-align:center;">
+        <button class="hero-btn" type="submit">Update Cart</button>
+      </div>
+    </form>
+
+    <h2 style="margin-top:25px;">Total: {{ items[0].product.currency }} {{ "%.2f"|format(total) }}</h2>
+
+    {% else %}
+    <h3>Your cart is empty!</h3>
+    {% endif %}
+  </section>
+
+  <div class="footer">
+    © 2025 3D-ALCHEMIST. All rights reserved.
+  </div>
 </body>
 </html>

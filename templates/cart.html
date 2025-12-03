@@ -18,7 +18,7 @@
     <h2>Your Cart</h2>
 
     {% if items %}
-    <form action="/update_cart" method="POST">
+    <form action="{{ url_for('update_cart') }}" method="POST">
       <table style="width:90%; margin:auto; background:white; padding:20px; border-radius:10px;">
         <tr>
           <th>Product</th>
@@ -41,7 +41,7 @@
           <td>{{ item.product.currency }} {{ "%.2f"|format(item.subtotal) }}</td>
 
           <td>
-            <a href="/remove_from_cart/{{ item.product.id }}" style="color:red;">Remove</a>
+            <a href="{{ url_for('remove_item', product_id=item.product.id) }}" style="color:red;">Remove</a>
           </td>
         </tr>
         {% endfor %}
@@ -51,8 +51,13 @@
         <button class="hero-btn" type="submit">Update Cart</button>
       </div>
     </form>
-
     <h2 style="margin-top:25px;">Total: {{ items[0].product.currency }} {{ "%.2f"|format(total) }}</h2>
+
+    <div style="text-align:center; margin-top:20px;">
+      <form action="{{ url_for('place_order') }}" method="POST">
+        <button class="hero-btn" type="submit">Place Order</button>
+      </form>
+    </div>
 
     {% else %}
     <h3>Your cart is empty!</h3>

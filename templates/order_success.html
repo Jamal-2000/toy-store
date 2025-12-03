@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Order Confirmation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    .order-success-wrapper {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .order-card {
+      background: #ffffff;
+      max-width: 720px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 36px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      text-align: center;
+    }
+    .order-card h1 {
+      margin: 0 0 8px 0;
+      color: #1f2937;
+      font-size: 28px;
+    }
+    .order-card p.lead {
+      margin: 0 0 18px 0;
+      color: #4b5563;
+      font-size: 16px;
+    }
+    .order-check {
+      font-size: 48px;
+      color: #10b981;
+      margin-bottom: 12px;
+    }
+    .order-details {
+      text-align: left;
+      margin-top: 18px;
+      border-top: 1px solid #e6e6e6;
+      padding-top: 16px;
+    }
+    .order-details ul { padding-left: 18px; margin: 0; }
+    .order-total { font-weight: 700; margin-top: 12px; }
+    .order-actions { margin-top: 22px; }
+    .btn-secondary {
+      background: #eef2ff;
+      color: #1f2937;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-right: 10px;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h2>3D-ALCHEMIST</h2>
+    <div class="links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('product_list') }}">Products</a>
+      <a href="{{ url_for('view_cart') }}">Cart</a>
+    </div>
+  </div>
+
+  <div class="order-success-wrapper">
+    <div class="order-card">
+      <div class="order-check">✓</div>
+      <h1>ORDER SUCCESSFUL</h1>
+      <p class="lead">Thank you — your order has been placed successfully.</p>
+
+      <div class="order-details">
+        <strong>Order summary</strong>
+        <ul>
+          {% for d in details %}
+          <li>{{ d.quantity }} × {{ d.product_title }} — {{ "%.2f"|format(d.subtotal) }} ({{ d.status }})</li>
+          {% endfor %}
+        </ul>
+
+        <div class="order-total">Total: {{ details[0].get('subtotal') and ("%.2f"|format(total)) or "0.00" }}</div>
+      </div>
+
+      <div class="order-actions">
+        <a class="btn-secondary" href="{{ url_for('product_list') }}">Continue Shopping</a>
+        <a class="btn-primary" href="{{ url_for('index') }}">Go To Home</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2025 3D-ALCHEMIST. All rights reserved.
+  </div>
+</body>
+</html>

@@ -18,7 +18,15 @@ steps:
         'us-central1',
         '--platform',
         'managed',
-        '--allow-unauthenticated'
+        '--allow-unauthenticated',
+        '--set-env-vars',
+        'DB_HOST=34.46.122.35',
+        '--set-env-vars',
+        'DB_USER=toyuser',
+        '--set-env-vars',
+        'DB_PASS=ToyUser123!',
+        '--set-env-vars',
+        'DB_NAME=toy_store_db'
       ]
 
 images:

@@ -1,4 +1,6 @@
-from flask import Flask, render_template, abort, url_for, session, redirect
+# from flask import Flask, render_template, abort, url_for, session, redirect
+from flask import Flask, render_template, abort, url_for, session, redirect, request, jsonify
+from db import insert_order
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey123"
@@ -108,6 +110,27 @@ def remove_item(product_id):
     return redirect("/cart")
 
 
+@app.route("/update_cart", methods=["POST"])
+def update_cart():
+    cart = session.get("cart", {})
+
+    # form keys are product ids (as strings); values are desired quantities
+    for key, val in request.form.items():
+        try:
+            pid = int(key)
+            qty = int(val)
+        except ValueError:
+            continue
+
+        if qty <= 0:
+            cart.pop(str(pid), None)
+        else:
+            cart[str(pid)] = qty
+
+    session["cart"] = cart
+    return redirect("/cart")
+
+
 # ---------------------------
 # CONTEXT PROCESSOR (image + cart count)
 # ---------------------------
@@ -122,6 +145,52 @@ def utility_processor():
         return sum(cart.values())
 
     return dict(image_url=image_url, cart_count=cart_count)
+
+
+# New code for placing order
+@app.route("/place-order", methods=["POST"])
+def place_order():
+    cart = session.get("cart", {})
+    if not cart:
+        return jsonify({"error": "Cart is empty"}), 400
+    orders_saved = []
+    grand_total = 0
+
+    for pid, qty in cart.items():
+        pid = int(pid)
+        product = products.get(pid)
+
+        if not product:
+            continue
+
+        success, msg = insert_order(
+            product_id=pid,
+            quantity=qty,
+            price=product["price"]
+        )
+
+        subtotal = product["price"] * qty
+        grand_total += subtotal
+
+        orders_saved.append({
+            "product_id": pid,
+            "product_title": product.get("title"),
+            "quantity": qty,
+            "subtotal": subtotal,
+            "status": msg,
+            "success": success,
+        })
+
+    # Clear cart after attempting to save orders
+    session["cart"] = {}
+
+    # Render a friendly HTML confirmation page
+    return render_template(
+        "order_success.html",
+        message="Order placed",
+        details=orders_saved,
+        total=grand_total,
+    )
 
 
 # ---------------------------
